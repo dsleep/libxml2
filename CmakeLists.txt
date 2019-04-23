@@ -5,7 +5,6 @@ if(MINGW OR UNIX)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-attributes")
 endif()
 
-
 list (APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 set(XML2_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
@@ -38,15 +37,15 @@ endif()
 add_library( xml2 ${XML2_LIBTYPE} ${XML2_SOURCES} ${XML2_HEADERS} )
 target_link_libraries(xml2 iconv ws2_32)
 
-set_target_properties(xml2 PROPERTIES PUBLIC_HEADER "${API_HEADERS}")
-
 set (_libxml2_CMake_BINDIR ${CMAKE_INSTALL_BINDIR})
-set (_libxml2_CMake_INCLUDE_DIR ${CMAKE_INSTALL_INCLUDEDIR})
-set (_libxml2_CMake_LIBDIR ${CMAKE_INSTALL_LIBDIR})
+set (_libxml2_CMake_LIBDIR ${CMAKE_INSTALL_LIBDIR} )
 set (_libxml2_CMake_INSTALLDIR ${_libxml2_CMake_LIBDIR}/cmake/libxml2)
 
 install(TARGETS xml2
 	RUNTIME DESTINATION ${_libxml2_CMake_BINDIR}
 	LIBRARY DESTINATION ${_libxml2_CMake_LIBDIR}
-	ARCHIVE DESTINATION ${_libxml2_CMake_LIBDIR}
-	PUBLIC_HEADER DESTINATION ${_libxml2_CMake_INCLUDE_DIR})
+	ARCHIVE DESTINATION ${_libxml2_CMake_LIBDIR})
+
+install (FILES ${API_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/libxml)
+
+message(STATUS ${API_HEADERS})
